@@ -132,6 +132,8 @@ pin_labels:
 void BOARD_InitBootPins(void)
 {
     BOARD_InitPins();
+    BOARD_InitLEDs();
+    BOARD_InitButtons();
     BOARD_InitDEBUG_UART();
 }
 

@@ -118,8 +118,7 @@ settings:
 - {id: MCG.FRDIV.scale, value: '32'}
 - {id: MCG.IREFS.sel, value: MCG.FRDIV}
 - {id: MCG.PLLS.sel, value: MCG.PLL}
-- {id: MCG.PRDIV.scale, value: '2', locked: true}
-- {id: MCG.VDIV.scale, value: '24', locked: true}
+- {id: MCG.PRDIV.scale, value: '2'}
 - {id: MCG_C1_IRCLKEN_CFG, value: Enabled}
 - {id: MCG_C2_OSC_MODE_CFG, value: ModeOscHighGain}
 - {id: MCG_C2_RANGE0_CFG, value: High}

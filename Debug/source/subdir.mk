@@ -4,24 +4,30 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../source/Seg_LCD.c \
 ../source/final_project.c \
 ../source/interruptFunc.c \
 ../source/mtb.c \
 ../source/semihost_hardfault.c \
+../source/time.c \
 ../source/tpmTimer.c 
 
 OBJS += \
+./source/Seg_LCD.o \
 ./source/final_project.o \
 ./source/interruptFunc.o \
 ./source/mtb.o \
 ./source/semihost_hardfault.o \
+./source/time.o \
 ./source/tpmTimer.o 
 
 C_DEPS += \
+./source/Seg_LCD.d \
 ./source/final_project.d \
 ./source/interruptFunc.d \
 ./source/mtb.d \
 ./source/semihost_hardfault.d \
+./source/time.d \
 ./source/tpmTimer.d 
 
 

@@ -43,9 +43,18 @@
 #include "Configuration.h"
 #include "interruptFunc.h"
 #include "tpmTimer.h"
+#include "Seg_LCD.h"
+#include "time.h"
 /* TODO: insert other definitions and declarations here. */
-
-
+volatile unsigned int count = 0;
+volatile Times myTimes = {0,30,10,10};
+volatile Dates myDates = {1,1,2019};
+volatile Times myTimeConf;
+volatile Dates myDateConf;
+// status val
+volatile uint8_t state = 0;
+volatile uint8_t flag = 0;
+volatile uint8_t subFlag = 0;
 /*
  * @brief   Application entry point.
  */
@@ -53,10 +62,13 @@ int main(void) {
 
   	/* Init board hardware. */
     BOARD_InitBootPins();
+	BOARD_InitLEDs();
+    BOARD_InitButtons();
     BOARD_InitBootClocks();
     BOARD_InitBootPeripherals();
   	/* Init FSL debug console. */
     BOARD_InitDebugConsole();
+    SegLCD_Init();
 	// Init tpm timer
 	tpmTimerInit();
     //Enable SW Interrupt
@@ -64,12 +76,131 @@ int main(void) {
     PORT_SetPinInterruptConfig(SW_3_PORT,SW_3_PIN,kPORT_InterruptFallingEdge);
 	//Enable timer tpm 
 	TPM_StartTimer(TPM0, kTPM_SystemClock);
-	//
-    EnableIRQ(PORTC_PORTD_IRQn);
-	EnableIRQ(TPM0_IRQn);
-    //TPM_StartTimer(TPM0, kTPM_SystemClock);
+	//enable Global Interrupt 
+	enableInterrupt();
+
     while(1){
-    	// loop
+    	switch (state) {
+        case 0: // show time
+            switch (flag)
+            {
+            case 0:
+            printNumberLeft(0);
+            getTime(&myTimeConf,myTimes); //  update timeConfig
+            getDate(&myDateConf,myDates);
+            break;
+            case 1:
+            SegLCD_DisplayTime(myTimes.hour,myTimes.minute);
+            break;
+            case 2:
+            SegLCD_DisplayTime(myTimes.second,myTimes.ms);
+            break;   
+            default:
+            break;
+            }
+            break;
+        case 1: // show date
+            switch (flag)
+            {
+            case 0:
+            printNumberLeft(1);
+            break;
+            case 1:
+            SegLCD_DisplayTime(myDates.day,myDates.month);
+            break;
+            case 2:
+            printNumber(myDates.year);
+            break;   
+            default:
+            break;
+            }
+            break;
+        case 2: //setting time FIXME:
+            switch (flag)
+            {
+            case 0:
+            printNumberLeft(2);
+            break;
+            case 2:
+            disableBlinkMode();
+            //
+            SegLCD_DisplayTime(myTimes.hour,myTimes.minute);
+            break; 
+            case 1:// get time and print
+            // TODO: setting blinking
+            enableBlinkMode();
+            // print h: xx
+            switch (subFlag)
+            {
+            case 0:  // config hour
+                // print h:xx
+                //TODO write function print menu config hour
+                printNumber(myTimeConf.hour);
+                // watting interrupt 
+                break;
+            case 1: // config minute
+                //TODO write function print menu config minute
+                printNumber(myTimeConf.minute);
+                break;
+            case 2: // config second
+                //TODO write function print menu config second
+                printNumber(myTimeConf.second);
+                //FIXME update time : OK
+                setTime(&myTimes,myTimeConf.second,myTimeConf.minute,myTimeConf.hour);
+                break;  
+            default:
+                break;
+            }
+            //myLCD_SetBlinking(myLcd,LDD_SEGLCD_BLINK_OFF);
+            break;   
+            default:
+            break;
+            }
+            break;
+
+        case 3: //setting Date
+            switch (flag)
+            {
+            case 0:
+            printNumberLeft(3);
+            break;
+            case 2:
+            //TODO: turn off blinking
+            disableBlinkMode();
+            // show date
+            SegLCD_DisplayTime(myDates.day,myDates.month);
+            break; 
+            case 1:// get time and print
+            //TODO: turn on blinking
+            enableBlinkMode();
+            // print h: xx
+            switch (subFlag)
+            {
+            case 0:  // config day
+                // print h:xx
+            printNumber(myDateConf.day);
+                // watting interrupt 
+                break;
+            case 1: // config month
+                printNumber(myDateConf.month);
+                break;
+            case 2: // config year
+                printNumber(myDateConf.year);
+                setDate(&myDates,myDateConf.day,myDateConf.month,myDateConf.year);
+                break;  
+            default:
+                break;
+            }
+            //myLCD_SetBlinking(myLcd,LDD_SEGLCD_BLINK_OFF);
+            break;   
+            default:
+            break;
+            }
+            break;    
+        default:
+            break;
+        }
+
     }
 }
 

@@ -6,7 +6,7 @@
 #include "fsl_clock.h"
 // define here:
 #define TPM_PRESCALER       kTPM_Prescale_Divide_128
-#define TPM_SOURCE_CLOCK    (CLOCK_GetFreq(kCLOCK_PllFllSelClk)/128)
+#define TPM_SOURCE_CLOCK    (8000000/128)
 
 //
 

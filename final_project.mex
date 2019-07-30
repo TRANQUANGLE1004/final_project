@@ -674,7 +674,7 @@
                   <clock_output id="OSCERCLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="PLLFLLCLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="System_clock.outFreq" value="48 MHz" locked="false" accuracy=""/>
-                  <clock_output id="TPMCLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="TPMCLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="UART0CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="USB48MCLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                </clock_outputs>
@@ -696,7 +696,7 @@
                   <setting id="SIM.OSC32KSEL.sel" value="PMC.LPOCLK" locked="false"/>
                   <setting id="SIM.OUTDIV1.scale" value="2" locked="false"/>
                   <setting id="SIM.PLLFLLSEL.sel" value="SIM.MCGPLLCLK_DIV2" locked="false"/>
-                  <setting id="SIM.TPMSRCSEL.sel" value="OSC.OSCERCLK" locked="false"/>
+                  <setting id="SIM.TPMSRCSEL.sel" value="SIM.PLLFLLSEL" locked="false"/>
                   <setting id="SIM.UART0SRCSEL.sel" value="OSC.OSCERCLK" locked="false"/>
                   <setting id="SIM.USBSRCSEL.sel" value="SIM.PLLFLLSEL" locked="false"/>
                   <setting id="TPMClkConfig" value="yes" locked="false"/>

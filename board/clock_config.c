@@ -55,7 +55,7 @@ board: FRDM-KL46Z
 #define SIM_OSC32KSEL_LPO_CLK                             3U  /*!< OSC32KSEL select: LPO clock */
 #define SIM_PLLFLLSEL_MCGFLLCLK_CLK                       0U  /*!< PLLFLL select: MCGFLLCLK clock */
 #define SIM_PLLFLLSEL_MCGPLLCLK_CLK                       1U  /*!< PLLFLL select: MCGPLLCLK clock */
-#define SIM_TPM_CLK_SEL_OSCERCLK_CLK                      2U  /*!< TPM clock select: OSCERCLK clock */
+#define SIM_TPM_CLK_SEL_PLLFLLSEL_CLK                     1U  /*!< TPM clock select: PLLFLLSEL output clock */
 #define SIM_UART_CLK_SEL_OSCERCLK_CLK                     2U  /*!< UART clock select: OSCERCLK clock */
 #define SIM_USB_CLK_48000000HZ                     48000000U  /*!< Input SIM frequency for USB: 48000000Hz */
 
@@ -108,7 +108,7 @@ outputs:
 - {id: OSCERCLK.outFreq, value: 8 MHz}
 - {id: PLLFLLCLK.outFreq, value: 48 MHz}
 - {id: System_clock.outFreq, value: 48 MHz}
-- {id: TPMCLK.outFreq, value: 8 MHz}
+- {id: TPMCLK.outFreq, value: 48 MHz}
 - {id: UART0CLK.outFreq, value: 8 MHz}
 - {id: USB48MCLK.outFreq, value: 48 MHz}
 settings:
@@ -129,7 +129,7 @@ settings:
 - {id: SIM.OSC32KSEL.sel, value: PMC.LPOCLK}
 - {id: SIM.OUTDIV1.scale, value: '2'}
 - {id: SIM.PLLFLLSEL.sel, value: SIM.MCGPLLCLK_DIV2}
-- {id: SIM.TPMSRCSEL.sel, value: OSC.OSCERCLK}
+- {id: SIM.TPMSRCSEL.sel, value: SIM.PLLFLLSEL}
 - {id: SIM.UART0SRCSEL.sel, value: OSC.OSCERCLK}
 - {id: SIM.USBSRCSEL.sel, value: SIM.PLLFLLSEL}
 - {id: TPMClkConfig, value: 'yes'}
@@ -205,7 +205,7 @@ void BOARD_BootClockRUN(void)
     /* Set UART0 clock source. */
     CLOCK_SetLpsci0Clock(SIM_UART_CLK_SEL_OSCERCLK_CLK);
     /* Set TPM clock source. */
-    CLOCK_SetTpmClock(SIM_TPM_CLK_SEL_OSCERCLK_CLK);
+    CLOCK_SetTpmClock(SIM_TPM_CLK_SEL_PLLFLLSEL_CLK);
     /* Set CLKOUT source. */
     CLOCK_SetClkOutClock(SIM_CLKOUT_SEL_FLASH_CLK);
 }

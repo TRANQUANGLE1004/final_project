@@ -3,6 +3,14 @@
         "fsl_common.h": "c",
         "interruptfunc.h": "c",
         "configuration.h": "c",
-        "tpmtimer.h": "c"
+        "tpmtimer.h": "c",
+        "board.h": "c",
+        "peripherals.h": "c",
+        "pin_mux.h": "c",
+        "clock_config.h": "c",
+        "mkl46z4.h": "c",
+        "fsl_debug_console.h": "c",
+        "time.h": "c",
+        "seg_lcd.h": "c"
     }
 }
